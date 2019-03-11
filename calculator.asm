@@ -1,6 +1,15 @@
 code segment: 
   
-main smth:
+
+
+main:
+
+  //read
+  //ad to stack one by one
+  //if seen any operation, go to operation
+  //do it again untill enter
+  //take last num from stack
+  //print it
 
 
 addition:
@@ -16,6 +25,10 @@ xor:
 
 
 and:
+
+
+
+
 
 
 or:
