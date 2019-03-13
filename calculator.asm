@@ -40,9 +40,35 @@ pushvalue:
 print:  ; top of stack ekrana yazdır.
   pop cx          ; cx = 5555
   mov ax, cx
-  mov bx, 1000h
+  mov dx, 0h
+  mov bx, 10h
   div bx          ; ax = 0005,  dx = 0555
-  mov cx, dx
+  push dx
+  mov dx,0h
+  div bx
+  push dx
+  mov dx,0h
+  div bx
+  push dx
+  mov dx,0h
+  div bx
+  push dx
+  mov dx,0h
+  mov ah,02h
+  pop dx
+  add dl,'0'  ;
+  int 21h
+  pop dx
+  add dl,'0'  ;
+  int 21h
+  pop dx
+  add dl,'0'  ;
+  int 21
+  pop dx
+  add dl,'0'  ;
+  int 21
+
+
   mov dl, al      ; ax = 0005,  dx = 0555
   add dl,'0'
   mov ah,02h
@@ -58,25 +84,25 @@ print:  ; top of stack ekrana yazdır.
   add dl,'0'
   mov ah,02h
   int 21h
-
-  mov dx,cx
-  mov bx, 10h
-  mov ax, dx
-  mov dx, 0h      ; ax = 0555,  dx = 0000
-  div bx          ;
-  mov cx, dx
-  mov dl, al
-  add dl,'0'
-  mov ah,02h
-  int 21h
-
-  mov dx,cx
-  mov ax, dx     ;
-  mov dl, al
-  add dl,'0'
-  mov ah,02h
-  int 21h
   int 20h
+  ;mov dx,cx
+  ;mov bx, 10h
+  ;mov ax, dx
+  ;mov dx, 0h      ; ax = 0555,  dx = 0000
+  ;div bx          ;
+  ;mov cx, dx
+  ;mov dl, al
+  ;add dl,'0'
+  ;mov ah,02h
+  ;int 21h
+
+  ;mov dx,cx
+  ;mov ax, dx     ;
+  ;mov dl, al
+  ;add dl,'0'
+  ;mov ah,02h
+  ;int 21h
+  ;int 20h
 
 addition:
   pop ax
@@ -84,13 +110,6 @@ addition:
   add ax,bx
   push ax
   jmp read
-
-subtraction:   ; ax-bx => ax
-  pop ax
-  pop bx
-  sub ax,bx
-  push ax
-  jmp myret
 
 
 myret:
