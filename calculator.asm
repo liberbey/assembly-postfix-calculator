@@ -11,11 +11,11 @@ letter_input:
   jmp read_cont
 
 pushvalue:
- cmp bx, 0h
- je read
- push bx
- mov bx,0h
- jmp read
+  cmp bx, 0h
+  je read
+  push bx
+  mov bx,0h
+  jmp read
 
 addition:
   pop ax
@@ -46,38 +46,38 @@ division:
   mov bx, 0h
   jmp read
 
-  read:
-    mov ah,01h  ;
-    int 21h     ; okudugumuz sayi AL'de
-    cmp al,2Bh
-    je addition
-    cmp al,20h
-    je pushvalue
-    cmp al,0Dh  ;
-    je print
-    cmp al,2Ah  ;
-    je multiplication
-    cmp al,2Fh  ;
-    je division
-    cmp al,5Eh  ;
-    je myxor
-    cmp al,26h  ;
-    je myand
-    cmp al,7Ch  ;
-    je myor
-    cmp al,40h
-    jg letter_input
-    sub al,'0' ;
-    jmp read_cont
+read:
+  mov ah,01h  ;
+  int 21h     ; okudugumuz sayi AL'de
+  cmp al,2Bh
+  je addition
+  cmp al,20h
+  je pushvalue
+  cmp al,0Dh  ;
+  je print
+  cmp al,2Ah  ;
+  je multiplication
+  cmp al,2Fh  ;
+  je division
+  cmp al,5Eh  ;
+  je myxor
+  cmp al,26h  ;
+  je myand
+  cmp al,7Ch  ;
+  je myor
+  cmp al,40h
+  jg letter_input
+  sub al,'0' ;
+  jmp read_cont
 
-  read_cont:
-    mov cx,0h
-    mov cl,al
-    mov ax,10h ; bx okunan sayıyı biriktirdiğimiz yer
-    mul bx   ;  al deki değer ile çarpıyor, ax'e yazıyor
-    add cx,ax   ;
-    mov bx,cx
-    jmp read    ; bx önceden sıfırlanıyor.
+read_cont:
+  mov cx,0h
+  mov cl,al
+  mov ax,10h ; bx okunan sayıyı biriktirdiğimiz yer
+  mul bx   ;  al deki değer ile çarpıyor, ax'e yazıyor
+  add cx,ax   ;
+  mov bx,cx
+  jmp read    ; bx önceden sıfırlanıyor.
 
 myxor:
   pop ax
@@ -139,7 +139,7 @@ print_finish:
   cmp dl,9h
   jg letter_output
   add dl, '0'
-print_cont:
+  print_cont:
   int 21h
   dec cx
   jnz print_finish
