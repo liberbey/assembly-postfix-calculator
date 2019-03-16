@@ -1,4 +1,4 @@
-code segment:
+code segment
   mov bx,0h
   mov ax,0h
   mov cx,0h
