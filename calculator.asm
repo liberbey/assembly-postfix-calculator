@@ -3,11 +3,11 @@ code segment
   mov ax,0h
   mov cx,0h
   mov dx,0h ; all registers are 0
-  call read ; calls read
+  jmp read ; jumps to read
 
-letter_input:
+letter_input: ; converts letter input to the its integer value
   sub al,"A"
-  add al, 10d ; to convert the value
+  add al, 10d
   jmp read_cont
 
 pushvalue:
@@ -24,9 +24,6 @@ addition:
   push ax ; push it to stack
   mov bx, 0h
   jmp read
-
-myret: ; return label
-  ret
 
 multiplication:
   mov dx,0h ; make dx zero, just in case
@@ -47,7 +44,7 @@ division:
   jmp read
 
 read:
-  mov ah,01h  ; to take inpur
+  mov ah,01h  ; to take input
   int 21h     ; takes input
   cmp al,2Bh  ; compare with +
   je addition
@@ -67,7 +64,7 @@ read:
   je myor
   cmp al,40h  ; compare with 40h to understand of the input is a letter or number
   jg letter_input
-  sub al,'0'  ; if it is not a letter, subtract 0 to convert its value
+  sub al,'0'  ; if it is not a letter, subtract ascii value of 0 to convert its value
   jmp read_cont
 
 read_cont:
@@ -132,13 +129,13 @@ print:
   inc cx
   jmp print_finish
 
-
 print_finish:
   mov ah,02h
   pop dx
   cmp dl,9h
   jg letter_output
   add dl, '0'
+
 print_cont:
   int 21h
   dec cx
