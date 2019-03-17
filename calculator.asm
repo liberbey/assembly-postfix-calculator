@@ -101,48 +101,48 @@ myor:
   jmp read
 
 print:
-  mov ah,02h
-  mov dl, 10d
-  int 21h
-  pop ax
-  mov bx,10h
+  mov ah,02h ; for printing
+  mov dl, 10d ; new line
+  int 21h ; print new line
+  pop ax ; pop top of the stack
+  mov bx,10h ; for dividing
   mov cx,0h
   mov dx,0h
-  div bx
+  div bx ; divide the number to 10d in order to take the last digit of it seperately
+  push dx ; push the remainder -last digit of num- to stack
+  inc cx ; c++, to know number of digits that will be in stack
+  cmp ax,0h ; if the quotient is 0, there is nothing more to divide, jump to finish
+  je print_finish
+  mov dx,0h ; make it 0, just in case
+  div bx ; same process again, if the quotient is not 0
   push dx
   inc cx
   cmp ax,0h
   je print_finish
   mov dx,0h
-  div bx
+  div bx ; same process again, if the quotient is not 0
   push dx
   inc cx
   cmp ax,0h
   je print_finish
-  mov dx,0h
-  div bx
-  push dx
-  inc cx
-  cmp ax,0h
-  je print_finish
-  push ax
+  push ax ; if there is a last digit, push it to stack
   inc cx
   jmp print_finish
 
 print_finish:
-  mov ah,02h
-  pop dx
-  cmp dl,9h
+  mov ah,02h ; to print
+  pop dx ; pop the top of the stack, first digit of the result
+  cmp dl,9h ; if it is a letter
   jg letter_output
   add dl, '0'
 
 print_cont:
-  int 21h
-  dec cx
-  jnz print_finish
-  int 20h
+  int 21h ; print it
+  dec cx ; c-- , c wis the number of digits in stack
+  jnz print_finish ; if c is not zero, same process again
+  int 20h ; quit
 
-letter_output:
+letter_output: ; if the output is a letter convert it to ascii 
   sub dl, 10d
   add dl, "A"
   jmp print_cont
