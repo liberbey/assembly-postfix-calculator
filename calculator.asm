@@ -138,7 +138,7 @@ print_finish:
 
 print_cont:
   int 21h ; print it
-  dec cx ; c-- , c wis the number of digits in stack
+  dec cx ; c-- , c is the number of digits in stack
   jnz print_finish ; if c is not zero, same process again
   int 20h ; quit
 
