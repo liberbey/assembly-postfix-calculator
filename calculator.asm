@@ -3,6 +3,8 @@ code segment
   mov ax,0h
   mov cx,0h
   mov dx,0h ; all registers are 0
+  mov si,0h ; si register will be used to check whether the last input is number or operation
+            ; if si = 0, last input was an operation. Otherwise last input was a number.
   jmp read ; jumps to read
 
 letter_input: ; converts letter input to the its integer value
@@ -11,13 +13,14 @@ letter_input: ; converts letter input to the its integer value
   jmp read_cont
 
 pushvalue:
- cmp bx, 0h ; if the last input was an operation, go back to read
+ cmp si, 0h ; if the last input was an operation, go back to read
  je read
  push bx ; push the last given input to the stack
  mov bx,0h ; make bx 0, because it is used in taking input
  jmp read
 
 addition:
+  mov si,0h
   pop ax ; take the top of stack
   pop bx ; take the top of stack
   add ax,bx ; add them
@@ -26,6 +29,7 @@ addition:
   jmp read
 
 multiplication:
+  mov si,0h
   mov dx,0h ; make dx zero, just in case
   pop ax ; take the top of stack
   pop bx ; take the top of stack
@@ -35,6 +39,7 @@ multiplication:
   jmp read
 
 division:
+  mov si,0h
   mov dx,0h ; make dx zero, just in case
   pop bx ; take the top of stack
   pop ax ; take the top of stack
@@ -62,6 +67,7 @@ read:
   je myand
   cmp al,7Ch  ; compare with |
   je myor
+  mov si,01h  ; input is a number 
   cmp al,40h  ; compare with 40h to understand of the input is a letter or number
   jg letter_input
   sub al,'0'  ; if it is not a letter, subtract ascii value of 0 to convert its value
@@ -77,6 +83,7 @@ read_cont:
   jmp read   ; back to read
 
 myxor:
+  mov si,0h
   pop ax ; take the top of stack
   pop bx ; take the top of stack
   xor ax,bx ; xor operation
@@ -85,6 +92,7 @@ myxor:
   jmp read
 
 myand:
+  mov si,0h
   pop ax ; take the top of stack
   pop bx ; take the top of stack
   and ax,bx ; and operation
@@ -93,6 +101,7 @@ myand:
   jmp read
 
 myor:
+  mov si,0h
   pop ax ; take the top of stack
   pop bx ; take the top of stack
   or ax,bx ; or operation
@@ -142,7 +151,7 @@ print_cont:
   jnz print_finish ; if c is not zero, same process again
   int 20h ; quit
 
-letter_output: ; if the output is a letter convert it to ascii 
+letter_output: ; if the output is a letter convert it to ascii
   sub dl, 10d
   add dl, "A"
   jmp print_cont
