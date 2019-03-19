@@ -13,7 +13,7 @@ The program takes postfix hexadecimal expressions and evaluates them. It is capa
 
 ### code segment
 
-All register values are made 0, just in case. And then jumps to read (6).
+AX, BX, CX, DX register values are made 0, just in case. Also SI is made 0, because it will be used as ‘input checker’. And then jumps to read (6).
 
 ### 1- letter_input: 
 
